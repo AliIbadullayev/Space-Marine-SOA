@@ -3,7 +3,7 @@ info:
   title: Space Marine API
   version: 1.0.0
 servers:
-  - url: 'https://localhost:9090/itmo/space-marine'
+  - url: 'https://localhost:9090/itmo/api'
 tags:
   - name: Space Marines
     description: Операции с десантниками
@@ -93,7 +93,6 @@ paths:
             type: array
             items:
               type: string
-              pattern: '(SCOUT|AGGRESSOR|TACTICAL|LIBRARIAN|APOTHECARY)'
           style: deepObject
           explode: true
         - name: weaponType
@@ -103,7 +102,6 @@ paths:
             type: array
             items:
               type: string
-              pattern: '(BOLTGUN|HEAVY_BOLTGUN|PLASMA_GUN|GRAV_GUN)'
           style: deepObject
           explode: true
         - name: chapterName
