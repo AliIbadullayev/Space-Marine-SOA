@@ -55,7 +55,8 @@ paths:
                   time:
                     type: string
                     format: date-time
-                    example: 2023-09-13T00:00:09Z
+                    nullable: false
+                    example: 2023-09-13T00:00:090Z
         '500':
           description: Internal server error
           content:
@@ -73,7 +74,8 @@ paths:
                   time:
                     type: string
                     format: date-time
-                    example: 2023-09-13T00:00:09Z
+                    nullable: false
+                    example: 2023-09-13T00:00:090Z
   /starship/{starship-id}/unload-all:
     put:
       summary: Unload all spacemarine placed onto starship
@@ -108,7 +110,8 @@ paths:
                   time:
                     type: string
                     format: date-time
-                    example: 2023-09-13T00:00:09Z
+                    nullable: false
+                    example: 2023-09-13T00:00:090Z
         '400':
           description: Invalid parameters supplied
           content:
@@ -126,7 +129,8 @@ paths:
                   time:
                     type: string
                     format: date-time
-                    example: 2023-03-13T00:00:09Z
+                    nullable: false
+                    example: 2023-03-13T00:00:090Z
         '500':
           description: Internal server error
           content:
@@ -144,4 +148,5 @@ paths:
                   time:
                     type: string
                     format: date-time
-                    example: 2023-09-13T00:00:09Z
+                    nullable: false
+                    example: 2023-09-13T00:00:090Z

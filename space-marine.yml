@@ -89,6 +89,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SpaceMarine'
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
           - Space Marines
     post:
@@ -100,10 +106,14 @@ paths:
             schema:
               $ref: '#/components/schemas/SpaceMarine'
       responses:
-        '201':
+        '204':
           description: Десантник успешно создан
-        '400':
-          description: Некорректные данные при создании десантника
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
           - Space Marines
   /space-marines/{id}:
@@ -124,8 +134,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SpaceMarine'
-        '404':
-          description: Десантник не найден
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
           - Space Marines
     put:
@@ -137,19 +151,27 @@ paths:
             schema:
               $ref: '#/components/schemas/SpaceMarine'
       responses:
-        '200':
+        '204':
           description: Успех
-        '404':
-          description: Десантник не найден
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
           - Space Marines
     delete:
       summary: Удалить десантника
       responses:
-        '200':
+        '204':
           description: Успех
-        '404':
-          description: Десантник не найден
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
           - Space Marines
   /space-utils/min-name:
@@ -162,6 +184,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SpaceMarine'
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
           - Space Utils
   /space-utils/max-category:
@@ -174,6 +202,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SpaceMarine'
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
           - Space Utils
   /space-utils/sum-health:
@@ -189,6 +223,12 @@ paths:
                 properties:
                   sumHealth:
                     type: integer
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
           - Space Utils
 components:
@@ -282,3 +322,22 @@ components:
         height: 
           type: integer
           maximum: 9987
+
+    Error:
+      type: object
+      required:
+        - httpCode
+        - message
+        - time
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 404
+        message:
+          type: string
+          example: Not Found
+        time:
+          type: string
+          format: date-time
+          example: 2023-09-13T00:00:090Z
