@@ -93,6 +93,7 @@ paths:
             type: array
             items:
               type: string
+              pattern: '(SCOUT|AGGRESSOR|TACTICAL|LIBRARIAN|APOTHECARY)'
           style: deepObject
           explode: true
         - name: weaponType
@@ -102,6 +103,7 @@ paths:
             type: array
             items:
               type: string
+              pattern: '(BOLTGUN|HEAVY_BOLTGUN|PLASMA_GUN|GRAV_GUN)'
           style: deepObject
           explode: true
         - name: chapterName
