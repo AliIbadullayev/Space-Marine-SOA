@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: Starship Service 
+  description: Starship Service for SOA 
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/api/v1/starships'
+paths:
+  /starship/{starship-id}/load/{space-marine-id}:
+    put:
+      summary: Load selected spacemarine into starship
+      description: Load selected spacemarine into starship
+      parameters:
+        - name: starship-id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            exclusiveMinimum: true
+            example: 1
+        - name: space-marine-id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            exclusiveMinimum: true
+            example: 1
+      tags:
+        - Starship
+      responses:
+        '200':
+          description: Returns spacemarine placed into starship
+          content:
+            application/json:
+              schema:
+                $ref: './space-marine-service.yml#/components/schemas/Starship'
+        '400':
+          description: Invalid parameters supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid parameters supplied
+                  time:
+                    type: string
+                    format: date-time
+                    example: 2023-09-13T00:00:09Z
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal server error
+                  time:
+                    type: string
+                    format: date-time
+                    example: 2023-09-13T00:00:09Z
+  /starship/{starship-id}/unload-all:
+    put:
+      summary: Unload all spacemarine placed onto starship
+      description: Unload all spacemarine placed onto starship (update spacemarine so that clean relation to starship)
+      parameters:
+        - name: starship-id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            exclusiveMinimum: true
+            example: 1
+      tags:
+        - Starship
+      responses:
+        '200':
+          description: Retuns result that all space marines was successfully unloaded 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: SpaceMarines was successfully unloaded from  starship '1'
+                  time:
+                    type: string
+                    format: date-time
+                    example: 2023-09-13T00:00:09Z
+        '400':
+          description: Invalid parameters supplied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid parameters supplied
+                  time:
+                    type: string
+                    format: date-time
+                    example: 2023-03-13T00:00:09Z
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal server error
+                  time:
+                    type: string
+                    format: date-time
+                    example: 2023-09-13T00:00:09Z
