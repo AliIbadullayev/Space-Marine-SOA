@@ -37,45 +37,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './space-marine-service.yml#/components/schemas/Starship'
-        '400':
-          description: Invalid parameters supplied
+                $ref: './space-marine.yml#/components/schemas/Starship'
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 400
-                  message:
-                    type: string
-                    example: Invalid parameters supplied
-                  time:
-                    type: string
-                    format: date-time
-                    nullable: false
-                    example: 2023-09-13T00:00:090Z
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 500
-                  message:
-                    type: string
-                    example: Internal server error
-                  time:
-                    type: string
-                    format: date-time
-                    nullable: false
-                    example: 2023-09-13T00:00:090Z
+                $ref: './space-marine.yml#/components/schemas/Error'
   /starship/{starship-id}/unload-all:
     put:
       summary: Unload all spacemarine placed onto starship
@@ -93,60 +61,11 @@ paths:
       tags:
         - Starship
       responses:
-        '200':
-          description: Retuns result that all space marines was successfully unloaded 
+        '204':
+          description: Retuns result that all space marines was successfully unloaded
+        default:
+          description: Возвращает тело для ошибки (код ошибки, время и сообщение)
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: SpaceMarines was successfully unloaded from  starship '1'
-                  time:
-                    type: string
-                    format: date-time
-                    nullable: false
-                    example: 2023-09-13T00:00:090Z
-        '400':
-          description: Invalid parameters supplied
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 400
-                  message:
-                    type: string
-                    example: Invalid parameters supplied
-                  time:
-                    type: string
-                    format: date-time
-                    nullable: false
-                    example: 2023-03-13T00:00:090Z
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 500
-                  message:
-                    type: string
-                    example: Internal server error
-                  time:
-                    type: string
-                    format: date-time
-                    nullable: false
-                    example: 2023-09-13T00:00:090Z
+                $ref: './space-marine.yml#/components/schemas/Error'
