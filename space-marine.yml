@@ -2,6 +2,8 @@ openapi: 3.0.0
 info:
   title: Space Marine API
   version: 1.0.0
+servers:
+  - url: 'https://localhost:9090/itmo/space-marine'
 tags:
   - name: Space Marines
     description: Операции с десантниками
@@ -12,6 +14,39 @@ paths:
     get:
       summary: Получить всех десантников
       parameters:
+        - name: sort
+          in: query
+          description: Имя поля и порядок сортировки (если не указан - ASC)
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              default: id
+              enum:
+                - id
+                - name
+                - health
+                - achivements
+                - category
+                - weaponType
+                - chapterName
+                - chapterWorld
+                - coordinatesX
+                - coordinatesY
+                - creationDate
+                - id DESC
+                - name DESC
+                - health DESC
+                - achivements DESC
+                - category DESC
+                - weaponType DESC
+                - chapterName DESC
+                - chapterWorld DESC
+                - coordinatesX DESC
+                - coordinatesY DESC
+                - creationDate DESC
         - name: page
           in: query
           description: Номер страницы
@@ -28,58 +63,97 @@ paths:
           in: query
           description: Фильтр по имени
           schema:
-            type: string
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
         - name: health
           in: query
           description: Фильтр по здоровью
           schema:
-            type: integer
-            minimum: 1
+            type: array
+            items:
+              type: integer
+          style: deepObject
+          explode: true
         - name: achievements
           in: query
           description: Фильтр по достижениям
           schema:
-            type: string
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
         - name: category
           in: query
           description: Фильтр по категории
           schema:
-            $ref: '#/components/schemas/AstartesCategory'
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
         - name: weaponType
           in: query
           description: Фильтр по типу оружия
           schema:
-            $ref: '#/components/schemas/Weapon'
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
         - name: chapterName
           in: query
           description: Фильтр по имени главы
           schema:
-            type: string
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
         - name: chapterWorld
           in: query
           description: Фильтр по миру главы
           schema:
-            type: string
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
         - name: creationDate
           in: query
           description: Фильтр по дате создания
           schema:
-            type: string
-            format: date-time
+            type: array
+            items:
+              type: string
+              format: date-time
+          style: deepObject
+          explode: true
         - name: coordinatesX
           in: query
           description: Фильтр по координате X
           schema:
-            type: number
-            format: double
-            maximum: 872
+            type: array
+            items:
+              type: number
+              format: double
+              maximum: 872
+          style: deepObject
+          explode: true
         - name: coordinatesY
           in: query
           description: Фильтр по координате Y
           schema:
-            type: integer
-            format: int64
-            maximum: 110
+            type: array
+            items:
+              type: integer
+              format: int64
+              maximum: 110
+          style: deepObject
+          explode: true
       responses:
         '200':
           description: Успех
@@ -104,7 +178,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SpaceMarine'
+              $ref: '#/components/schemas/SpaceMarineCreateRequest'
       responses:
         '204':
           description: Десантник успешно создан
@@ -149,7 +223,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SpaceMarine'
+              $ref: '#/components/schemas/SpaceMarineCreateRequest'
       responses:
         '204':
           description: Успех
@@ -174,9 +248,17 @@ paths:
                 $ref: '#/components/schemas/Error'
       tags:
           - Space Marines
-  /space-utils/min-name:
+
+  /space-utils/{field-name}/min:
+    parameters:
+    - name: field-name
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Название поля
     get:
-      summary: Получить десантника с минимальным значением поля name
+      summary: Применение агрегатной функции MIN к выбранному полю 
       responses:
         '200':
           description: Успех
@@ -192,9 +274,17 @@ paths:
                 $ref: '#/components/schemas/Error'
       tags:
           - Space Utils
-  /space-utils/max-category:
+
+  /space-utils/{field-name}/max:
+    parameters:
+    - name: field-name
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Название поля
     get:
-      summary: Получить десантника с максимальным значением поля category
+      summary: Применение агрегатной функции MAX к выбранному полю 
       responses:
         '200':
           description: Успех
@@ -210,16 +300,22 @@ paths:
                 $ref: '#/components/schemas/Error'
       tags:
           - Space Utils
-  /space-utils/sum-health:
+  /space-utils/{field-name}/sum:
+    parameters:
+    - name: field-name
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Название поля
     get:
-      summary: Рассчитать сумму значений поля health для всех всех десантников
+      summary: Применение агрегатной функции SUM к выбранному полю 
       responses:
         '200':
           description: Успех
           content:
             application/json:
               schema:
-                type: object
                 properties:
                   sumHealth:
                     type: integer
@@ -233,6 +329,35 @@ paths:
           - Space Utils
 components:
   schemas:
+    SpaceMarineCreateRequest:
+      type: object
+      required:
+        - id
+        - name
+        - coordinates
+        - achievements
+        - category
+        - chapter
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          type: string
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        health:
+          type: integer
+          format: int64
+          minimum: 1
+        achievements:
+          type: string
+        category:
+          $ref: '#/components/schemas/AstartesCategory'
+        weaponType:
+          $ref: '#/components/schemas/Weapon'
+        chapter:
+          $ref: '#/components/schemas/Chapter'
     SpaceMarine:
       type: object
       required:
@@ -316,10 +441,10 @@ components:
         name:
           type: string
           example: RosKosmos
-        width: 
+        width:
           type: integer
           maximum: 532
-        height: 
+        height:
           type: integer
           maximum: 9987
 
